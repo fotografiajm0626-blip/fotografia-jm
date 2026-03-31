@@ -53,3 +53,88 @@ footer {
     padding: 20px;
     background: black;
 }
+/* =========================
+   RESPONSIVE SOLO MOVIL
+========================= */
+@media (max-width: 768px){
+
+/* NAV */
+nav{
+gap:15px;
+flex-wrap:wrap;
+}
+
+nav a{
+font-size:11px;
+}
+
+.logo{
+height:45px;
+margin:0 10px;
+}
+
+/* HERO */
+.hero-content h2{
+font-size:38px;
+}
+
+.hero-content p{
+font-size:16px;
+}
+
+.hero{
+padding:0 15px;
+}
+
+/* SECCIONES */
+.section{
+padding:60px 20px;
+}
+
+.title{
+font-size:28px;
+}
+
+/* CARRUSEL */
+.carousel img{
+max-width:280px;
+}
+
+/* CONTROLES */
+.ctrl-btn{
+width:35px;
+height:35px;
+}
+
+/* TEAM */
+.team{
+gap:30px;
+}
+
+.member img{
+width:120px;
+height:120px;
+}
+
+/* SOCIAL */
+.social-item{
+padding:10px 15px;
+font-size:13px;
+}
+
+.social-icons a{
+width:40px;
+height:40px;
+font-size:18px;
+}
+
+/* BOTON WHATSAPP */
+.float-btn{
+width:55px;
+height:55px;
+font-size:22px;
+bottom:15px;
+right:15px;
+}
+
+}
