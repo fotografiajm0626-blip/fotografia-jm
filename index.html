@@ -367,6 +367,144 @@ color:var(--gold);
 nav a.active::after{
 width:70%;
 }
+
+/* =========================
+   GALERIA PRO
+========================= */
+
+/* FILTROS */
+.filters{
+text-align:center;
+margin-bottom:30px;
+}
+
+.filters button{
+background:none;
+border:1px solid #222;
+color:#fff;
+padding:8px 15px;
+margin:5px;
+cursor:pointer;
+transition:.3s;
+}
+
+.filters button.active,
+.filters button:hover{
+border-color:var(--gold);
+color:var(--gold);
+}
+
+/* GRID */
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:15px;
+}
+
+/* IMÁGENES */
+.gallery img{
+width:100%;
+height:320px;
+object-fit:cover;
+border-radius:10px;
+cursor:pointer;
+transition:.4s;
+}
+
+.gallery img:hover{
+transform:scale(1.05);
+}
+
+/* OCULTAR */
+.gallery img.hide{
+display:none;
+}
+
+/* =========================
+   MODO INSTAGRAM
+========================= */
+
+.gallery{
+display:flex;
+overflow-x:auto;
+gap:15px;
+padding:10px;
+scroll-snap-type:x mandatory;
+-webkit-overflow-scrolling:touch;
+}
+
+/* OCULTAR SCROLL BAR */
+.gallery::-webkit-scrollbar{
+display:none;
+}
+
+/* ITEMS */
+.gallery .item{
+flex:0 0 auto;
+width:250px;
+height:350px;
+object-fit:cover;
+border-radius:12px;
+scroll-snap-align:center;
+transition:.4s;
+}
+
+/* EFECTO */
+.gallery .item:active{
+transform:scale(0.95);
+}
+
+/* =========================
+   MODAL PRO + ZOOM
+========================= */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:99999;
+
+/* ANIMACIÓN */
+opacity:0;
+pointer-events:none;
+transition:opacity .4s ease;
+}
+
+/* ACTIVO */
+.modal.show{
+opacity:1;
+pointer-events:auto;
+}
+
+/* IMAGEN */
+.modal img{
+max-width:90%;
+max-height:90%;
+border-radius:12px;
+
+/* ZOOM PRO */
+transform:scale(0.8);
+opacity:0;
+transition:all .4s ease;
+}
+
+/* CUANDO ABRE */
+.modal.show img{
+transform:scale(1);
+opacity:1;
+}
+
+/* EFECTO AL CERRAR */
+.modal.hide img{
+transform:scale(0.8);
+opacity:0;
+}
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -404,19 +542,32 @@ width:70%;
 </section>
 
 <section id="gallery" class="section">
+
 <h2 class="title">PORTAFOLIO</h2>
-<div class="carousel-container">
-<div class="carousel" id="carousel">
-<img src="https://picsum.photos/500/700?1" onclick="openModal(this.src)">
-<img src="https://picsum.photos/500/700?2" onclick="openModal(this.src)">
-<img src="https://picsum.photos/500/700?3" onclick="openModal(this.src)">
+
+<!-- FILTROS -->
+<div class="filters">
+<button onclick="filterGallery('all')" class="active">TODO</button>
+<button onclick="filterGallery('xv')">XV</button>
+<button onclick="filterGallery('boda')">BODAS</button>
+<button onclick="filterGallery('bautizo')">BAUTIZOS</button>
+<button onclick="filterGallery('sesion')">SESIONES</button>
 </div>
+
+<!-- GALERÍA -->
+
+
+<div class="gallery">
+
+<img src="imagenes/foto1.jpg" class="item xv" onclick="openModal(this.src)">
+<img src="imagenes/foto2.jpg" class="item boda" onclick="openModal(this.src)">
+<img src="imagenes/foto3.jpg" class="item xv" onclick="openModal(this.src)">
+<img src="imagenes/foto4.jpg" class="item sesion" onclick="openModal(this.src)">
+<img src="imagenes/foto5.jpg" class="item boda" onclick="openModal(this.src)">
+
 </div>
-<div class="controls">
-<div class="ctrl-btn" onclick="moveSlide(-1)">❮</div>
-<div class="ctrl-btn" onclick="moveSlide(1)">❯</div>
-</div>
-</section>
+
+
 
 <div class="modal" id="modal" onclick="closeModal()">
 <img id="modalImg">
@@ -559,17 +710,28 @@ setInterval(()=>{moveSlide(1)},5000);
 
 
 // =========================
-// MODAL
+// MODAL PRO + ZOOM
 // =========================
+
 function openModal(src){
-document.getElementById('modal').style.display='flex';
-document.getElementById('modalImg').src=src;
+const modal = document.getElementById('modal');
+const img = document.getElementById('modalImg');
+
+img.src = src;
+
+modal.classList.add('show');
+modal.classList.remove('hide');
 }
 
 function closeModal(){
-document.getElementById('modal').style.display='none';
-}
+const modal = document.getElementById('modal');
 
+modal.classList.add('hide');
+
+setTimeout(()=>{
+modal.classList.remove('show');
+},300);
+}
 
 // =========================
 // LINK ACTIVO PRO (FIX REAL)
@@ -620,6 +782,34 @@ if(contacto) contacto.classList.add("active");
 }
 
 });
+
+// =========================
+// FILTRO GALERÍA PRO
+// =========================
+
+function filterGallery(category){
+
+const items = document.querySelectorAll('.gallery .item');
+const buttons = document.querySelectorAll('.filters button');
+
+buttons.forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+
+items.forEach(item => {
+
+if(category === 'all'){
+item.classList.remove('hide');
+}else{
+if(item.classList.contains(category)){
+item.classList.remove('hide');
+}else{
+item.classList.add('hide');
+}
+}
+
+});
+
+}
 
 </script>
 </body>
