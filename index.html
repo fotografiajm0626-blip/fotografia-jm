@@ -216,20 +216,47 @@ transform:scale(1.2);
 /*                                */
 @media (max-width: 768px){
 
-nav{
-gap:15px;
-flex-wrap:wrap;
+/* HEADER */
+header{
+padding:15px 10px;
 }
 
+/* NAV (AQUÍ VA TU DISEÑO PRO / GRID SI YA LO PUSISTE) */
+nav{
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap:12px;
+align-items:center;
+text-align:center;
+}
+
+/* LINKS */
 nav a{
 font-size:11px;
+letter-spacing:2px;
 }
 
+/* POSICIONES (IMPORTANTE SI YA USAS EL DISEÑO PRO) */
+nav a:nth-child(1){grid-column:1;grid-row:1;}
+nav a:nth-child(5){grid-column:3;grid-row:1;}
+
+nav a:nth-child(2){grid-column:1;grid-row:2;}
+nav a:nth-child(4){
+grid-column:2;grid-row:2;
+display:flex;justify-content:center;
+}
+nav a:nth-child(6){grid-column:3;grid-row:2;}
+
+nav a:nth-child(3){grid-column:1;grid-row:3;}
+nav a:nth-child(7){grid-column:3;grid-row:3;}
+
+/* LOGO */
 .logo{
-height:45px;
-margin:0 10px;
+height:50px;
+margin:auto;
 }
 
+/* HERO */
 .hero{
 height:100vh;
 padding:0 15px;
@@ -251,20 +278,24 @@ font-size:16px;
 line-height:1.4;
 }
 
+/* BOTÓN */
 .btn{
 font-size:14px;
 padding:10px 18px;
 }
 
+/* TEXTO */
 .hero-content h2,
 .hero-content p{
 word-wrap:break-word;
 }
 
+/* CARRUSEL */
 .carousel img{
 max-width:280px;
 }
 
+/* WHATSAPP */
 .float-btn{
 width:55px;
 height:55px;
@@ -275,6 +306,7 @@ right:15px;
 
 }
 
+/* CELULARES PEQUEÑOS */
 @media (max-width: 400px){
 
 .hero-content h2{
@@ -283,34 +315,6 @@ font-size:28px;
 
 .hero-content p{
 font-size:14px;
-}
-
-}
-@media (max-width: 768px){
-
-header{
-padding:15px 10px;
-}
-
-/* NAV CENTRADO REAL */
-nav{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:10px;
-}
-
-/* LINKS */
-nav a{
-font-size:12px;
-letter-spacing:2px;
-}
-
-/* LOGO */
-.logo{
-margin:10px 0;
-height:50px;
 }
 
 }
@@ -330,12 +334,14 @@ height:50px;
 <nav>
 <a href="#gallery">PORTAFOLIO</a>
 <a href="#about">CONOCENOS</a>
+<a href="#services">SERVICIOS</a>
 
 <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})">
 <img src="imagenes/logo.png" class="logo" id="logo">
 </a>
 
-<a href="#services">SERVICIOS</a>
+<a href="#products">PRODUCTOS</a>
+<a href="#packages">PAQUETES</a>
 <a href="#contact">CONTACTO</a>
 </nav>
 </header>
@@ -403,6 +409,16 @@ Más que fotógrafos, somos narradores de momentos que merecen ser recordados pa
 <div class="service"><h3>Bautizos</h3><p>Recuerdos únicos de momentos familiares importantes.</p></div>
 <div class="service"><h3>Sesiones</h3><p>Retratos profesionales.</p></div>
 </div>
+</section>
+
+<section id="products" class="section">
+<h2 class="title">PRODUCTOS</h2>
+<p style="text-align:center;color:#ccc">Próximamente...</p>
+</section>
+
+<section id="packages" class="section">
+<h2 class="title">PAQUETES</h2>
+<p style="text-align:center;color:#ccc">Consulta nuestras promociones disponibles.</p>
 </section>
 
 <section id="contact" class="section cta">
