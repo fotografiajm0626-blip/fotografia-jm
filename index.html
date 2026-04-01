@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
+
 :root{--gold:#d4af37}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Cormorant Garamond',serif;background:#000;color:#fff}
@@ -586,6 +587,7 @@ overflow:hidden;
 
 <h2 class="title">PORTAFOLIO</h2>
 
+
 <!-- FILTROS -->
 <div class="filters">
 <button onclick="filterGallery('all')" class="active">TODO</button>
@@ -695,7 +697,6 @@ Más que fotógrafos, somos narradores de momentos que merecen ser recordados pa
 
 </div>
 
-<a class="float-btn" href="https://wa.me/527228215986" target="_blank">💬</a>
 
 <script>
 
@@ -731,24 +732,84 @@ el.classList.add('show','visible');
 
 
 // =========================
-// CARRUSEL
+// CARRUSEL PRO (MISMA BASE)
 // =========================
-let index=0;
+let index = 1;
+const carousel = document.getElementById('carousel');
+let items = carousel.children;
 
+// 🔥 CLONAR PARA LOOP INFINITO
+const firstClone = items[0].cloneNode(true);
+const lastClone = items[items.length - 1].cloneNode(true);
+
+carousel.appendChild(firstClone);
+carousel.insertBefore(lastClone, items[0]);
+
+items = carousel.children;
+
+// POSICIÓN INICIAL
+let size = items[0].clientWidth + 20;
+carousel.style.transform = `translateX(${-size * index}px)`;
+
+// =========================
+// MOVER
+// =========================
 function moveSlide(direction){
-const carousel=document.getElementById('carousel');
-const total=carousel.children.length;
-
-index+=direction;
-
-if(index<0) index=total-1;
-if(index>=total) index=0;
-
-carousel.style.transform=`translateX(${-index*420}px)`;
+carousel.style.transition = "transform .6s ease";
+index += direction;
+carousel.style.transform = `translateX(${-size * index}px)`;
 }
 
-setInterval(()=>{moveSlide(1)},5000);
+// =========================
+// LOOP INFINITO REAL
+// =========================
+carousel.addEventListener('transitionend', () => {
 
+if(items[index].isSameNode(firstClone)){
+carousel.style.transition = "none";
+index = 1;
+carousel.style.transform = `translateX(${-size * index}px)`;
+}
+
+if(items[index].isSameNode(lastClone)){
+carousel.style.transition = "none";
+index = items.length - 2;
+carousel.style.transform = `translateX(${-size * index}px)`;
+}
+
+});
+
+// =========================
+// AUTOPLAY (igual que tenías pero mejor)
+// =========================
+let auto = setInterval(()=>{moveSlide(1)},4000);
+
+// PAUSA AL HOVER
+carousel.addEventListener('mouseenter', ()=> clearInterval(auto));
+carousel.addEventListener('mouseleave', ()=>{
+auto = setInterval(()=>{moveSlide(1)},4000);
+});
+
+// =========================
+// SWIPE (TOUCH)
+// =========================
+let startX = 0;
+
+carousel.addEventListener('touchstart', (e)=>{
+startX = e.touches[0].clientX;
+});
+
+carousel.addEventListener('touchend', (e)=>{
+let endX = e.changedTouches[0].clientX;
+let diff = startX - endX;
+
+if(diff > 50){
+moveSlide(1);
+}
+if(diff < -50){
+moveSlide(-1);
+}
+});
 
 // =========================
 // MODAL FINAL FUNCIONAL
@@ -840,6 +901,7 @@ item.classList.add('hide');
 }
 
 });
+
 
 }
 
