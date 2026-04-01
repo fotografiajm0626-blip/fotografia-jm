@@ -732,24 +732,32 @@ el.classList.add('show','visible');
 
 
 // =========================
-// CARRUSEL PRO (MISMA BASE)
+// CARRUSEL PRO INFINITO REAL
 // =========================
-let index = 1;
 const carousel = document.getElementById('carousel');
-let items = carousel.children;
+let slides = carousel.children;
 
-// 🔥 CLONAR PARA LOOP INFINITO
-const firstClone = items[0].cloneNode(true);
-const lastClone = items[items.length - 1].cloneNode(true);
+let index = 1;
+let size;
+
+// 🔥 CLONAR
+const firstClone = slides[0].cloneNode(true);
+const lastClone = slides[slides.length - 1].cloneNode(true);
 
 carousel.appendChild(firstClone);
-carousel.insertBefore(lastClone, items[0]);
+carousel.insertBefore(lastClone, slides[0]);
 
-items = carousel.children;
+slides = carousel.children;
 
-// POSICIÓN INICIAL
-let size = items[0].clientWidth + 20;
+// 🔥 CALCULAR TAMAÑO REAL
+function updateSize(){
+size = slides[0].clientWidth + 20;
+carousel.style.transition = "none";
 carousel.style.transform = `translateX(${-size * index}px)`;
+}
+
+window.addEventListener('load', updateSize);
+window.addEventListener('resize', updateSize);
 
 // =========================
 // MOVER
@@ -761,37 +769,36 @@ carousel.style.transform = `translateX(${-size * index}px)`;
 }
 
 // =========================
-// LOOP INFINITO REAL
+// LOOP PERFECTO (FIX REAL)
 // =========================
 carousel.addEventListener('transitionend', () => {
 
-if(items[index].isSameNode(firstClone)){
+if(index >= slides.length - 1){
 carousel.style.transition = "none";
 index = 1;
 carousel.style.transform = `translateX(${-size * index}px)`;
 }
 
-if(items[index].isSameNode(lastClone)){
+if(index <= 0){
 carousel.style.transition = "none";
-index = items.length - 2;
+index = slides.length - 2;
 carousel.style.transform = `translateX(${-size * index}px)`;
 }
 
 });
 
 // =========================
-// AUTOPLAY (igual que tenías pero mejor)
+// AUTOPLAY
 // =========================
-let auto = setInterval(()=>{moveSlide(1)},4000);
+let auto = setInterval(()=> moveSlide(1), 4000);
 
-// PAUSA AL HOVER
 carousel.addEventListener('mouseenter', ()=> clearInterval(auto));
 carousel.addEventListener('mouseleave', ()=>{
-auto = setInterval(()=>{moveSlide(1)},4000);
+auto = setInterval(()=> moveSlide(1), 4000);
 });
 
 // =========================
-// SWIPE (TOUCH)
+// SWIPE
 // =========================
 let startX = 0;
 
@@ -803,12 +810,8 @@ carousel.addEventListener('touchend', (e)=>{
 let endX = e.changedTouches[0].clientX;
 let diff = startX - endX;
 
-if(diff > 50){
-moveSlide(1);
-}
-if(diff < -50){
-moveSlide(-1);
-}
+if(diff > 50) moveSlide(1);
+if(diff < -50) moveSlide(-1);
 });
 
 // =========================
@@ -901,7 +904,6 @@ item.classList.add('hide');
 }
 
 });
-
 
 }
 
