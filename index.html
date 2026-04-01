@@ -461,8 +461,8 @@ transform:scale(0.95);
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
+width:100vw;   /* 🔥 CAMBIO */
+height:100vh;  /* 🔥 CAMBIO */
 background:rgba(0,0,0,0.95);
 
 display:flex;
@@ -479,30 +479,68 @@ pointer-events:none;
 transition:opacity .3s ease;
 }
 
-/* CUANDO ABRE */
+/* 🔥 FIX MODAL MOVIL */
+.modal{
+width:100vw;
+height:100vh;
+}
+
+/* 🔥 BLOQUEAR SCROLL */
+body.modal-open{
+overflow:hidden;
+}
+
+/* =========================
+   MODAL FINAL PRO
+========================= */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+background:rgba(0,0,0,0.95);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+z-index:99999;
+
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+
+transition:opacity .3s ease;
+}
+
 .modal.show{
 opacity:1;
 visibility:visible;
 pointer-events:auto;
 }
 
-/* IMAGEN */
 .modal img{
 max-width:90%;
 max-height:90%;
 border-radius:12px;
 
-/* ZOOM */
 transform:scale(0.8);
 opacity:0;
-transition:all .3s ease;
+transition:.3s;
 }
 
-/* ACTIVA */
 .modal.show img{
 transform:scale(1);
 opacity:1;
 }
+
+/* BLOQUEAR SCROLL */
+body.modal-open{
+overflow:hidden;
+}
+
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -527,6 +565,11 @@ opacity:1;
 <a href="#contact">CONTACTO</a>
 </nav>
 </header>
+<div class="modal" id="modal" onclick="closeModal()">
+<img id="modalImg">
+</div>
+
+</body>
 
 <section class="hero parallax">
 
@@ -708,22 +751,18 @@ setInterval(()=>{moveSlide(1)},5000);
 
 
 // =========================
-// MODAL FIX FINAL
+// MODAL FINAL FUNCIONAL
 // =========================
 
 function openModal(src){
-const modal = document.getElementById('modal');
-const img = document.getElementById('modalImg');
-
-img.src = src;
-
-modal.classList.add('show');
+document.getElementById('modal').classList.add('show');
+document.getElementById('modalImg').src = src;
+document.body.classList.add('modal-open');
 }
 
 function closeModal(){
-const modal = document.getElementById('modal');
-
-modal.classList.remove('show');
+document.getElementById('modal').classList.remove('show');
+document.body.classList.remove('modal-open');
 }
 
 // =========================
